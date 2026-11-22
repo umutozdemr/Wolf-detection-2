@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420">
+<rect width="100%" height="100%" fill="#0f172a" rx="14"/>
+<text x="410" y="38" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">Estimated Power Draw by System State (RPi 4B + Camera Module 3)</text>
+<text x="410" y="60" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">MAX98357A Amp SD-pin power gated (0 mA standby) | HDMI, Wi-Fi &amp; Bluetooth disabled</text>
+<line x1="85" y1="335.0" x2="785" y2="335.0" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="339.0" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">0 W</text>
+<line x1="85" y1="299.3" x2="785" y2="299.3" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="303.3" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">1 W</text>
+<line x1="85" y1="263.6" x2="785" y2="263.6" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="267.6" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">2 W</text>
+<line x1="85" y1="227.9" x2="785" y2="227.9" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="231.9" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">3 W</text>
+<line x1="85" y1="192.1" x2="785" y2="192.1" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="196.1" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">4 W</text>
+<line x1="85" y1="156.4" x2="785" y2="156.4" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="160.4" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">5 W</text>
+<line x1="85" y1="120.7" x2="785" y2="120.7" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="124.7" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">6 W</text>
+<line x1="85" y1="85.0" x2="785" y2="85.0" stroke="#1e293b" stroke-width="1"/>
+<text x="73" y="89.0" text-anchor="end" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="12">7 W</text>
+<rect x="109" y="331.0" width="96" height="4.0" fill="#10b981" rx="6"/>
+<text x="157.0" y="323.0" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">0.02 W</text>
+<text x="157.0" y="357" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">MCU Hard-Sleep</text>
+<text x="157.0" y="373" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">(Tier-2 Idle)</text>
+<rect x="247" y="260.0" width="96" height="75.0" fill="#3b82f6" rx="6"/>
+<text x="295.0" y="252.0" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">2.10 W</text>
+<text x="295.0" y="357" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">Pi 4B Idle</text>
+<text x="295.0" y="373" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">(PIR Active)</text>
+<rect x="385" y="249.3" width="96" height="85.7" fill="#6366f1" rx="6"/>
+<text x="433.0" y="241.3" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">2.40 W</text>
+<text x="433.0" y="357" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">Cooldown</text>
+<text x="433.0" y="373" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">(Amp Off)</text>
+<rect x="523" y="163.6" width="96" height="171.4" fill="#f59e0b" rx="6"/>
+<text x="571.0" y="155.6" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">4.80 W</text>
+<text x="571.0" y="357" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">AI Detection</text>
+<text x="571.0" y="373" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">(Cam3 + 4 FPS)</text>
+<rect x="661" y="113.6" width="96" height="221.4" fill="#ef4444" rx="6"/>
+<text x="709.0" y="105.6" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">6.20 W</text>
+<text x="709.0" y="357" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">Wolf Response</text>
+<text x="709.0" y="373" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="12">(Speech + Rec)</text>
+</svg>
