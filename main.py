@@ -71,10 +71,9 @@ def play_sound(sound_name, amp_device=None, silent=False):
 
 def log_event(event_type, label, confidence, sound_name="", log_file=LOG_FILE):
     """Append one row to events.csv."""
-    write_header = not log_file.exists()
     with log_file.open("a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        if write_header:
+        if f.tell() == 0:
             writer.writerow(["time", "event", "label", "confidence", "sound"])
         writer.writerow([
             datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -127,7 +126,7 @@ def process_labels(labels, wolf_streak, last_sound=None, amp_device=None, silent
     return "NO_WOLF", 0, None
 
 
-def run_demo(silent=False):
+def run_demo(silent=False, log_file=LOG_FILE):
     """Simple 3-case demo for the Midterm Presentation (works with zero extra packages)."""
     print("=== WolfDet Midterm Demo ===")
     print("Scenarios: 1) Deer (ignore) -> 2) Person (GDPR ignore) -> 3) Wolf (play human speech)\n")
@@ -149,7 +148,7 @@ def run_demo(silent=False):
             print(f"[{i}] {step_name:<14} -> IDLE (sleeping, ~2.1 W)")
             continue
         action, wolf_streak, played = process_labels(
-            labels, wolf_streak, last_sound=last_sound, silent=silent
+            labels, wolf_streak, last_sound=last_sound, silent=silent, log_file=log_file
         )
         if played:
             last_sound = played
@@ -157,10 +156,11 @@ def run_demo(silent=False):
         else:
             print(f"[{i}] {step_name:<14} -> {action} | Labels: {labels}")
 
-    print(f"\nDone! Events saved to {LOG_FILE}")
+    print(f"\nDone! Events saved to {log_file}")
 
 
-def run_camera(source="0", model_path="yolov8n.pt", use_pi=False, proxy_wolf=False, silent=False):
+def run_camera(source="0", model_path="yolov8n.pt", use_pi=False, proxy_wolf=False,
+               silent=False, log_file=LOG_FILE):
     """Run live detection on webcam, video file, or Raspberry Pi Camera Module 3."""
     import cv2
     from ultralytics import YOLO
@@ -240,7 +240,8 @@ def run_camera(source="0", model_path="yolov8n.pt", use_pi=False, proxy_wolf=Fal
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
 
                 action, wolf_streak, played = process_labels(
-                    labels, wolf_streak, last_sound=last_sound, amp_device=amp, silent=silent
+                    labels, wolf_streak, last_sound=last_sound, amp_device=amp,
+                    silent=silent, log_file=log_file
                 )
                 status = f"DETECTING | {action}"
 
@@ -278,15 +279,25 @@ def main():
     parser.add_argument("--pi", action="store_true", help="Run on Raspberry Pi 4B + Camera Module 3 + PIR")
     parser.add_argument("--proxy-wolf", action="store_true", help="Treat COCO 'dog' as 'wolf' for quick testing")
     parser.add_argument("--silent", action="store_true", help="Do not play audio out loud")
+    parser.add_argument("--log-file", type=Path, default=LOG_FILE,
+                        help="Event CSV path (default: events.csv)")
     args = parser.parse_args()
 
+    if not args.log_file.parent.is_dir():
+        parser.error(f"Log directory does not exist: {args.log_file.parent}")
+    if args.log_file.is_dir():
+        parser.error(f"Log path is a directory: {args.log_file}")
+
     if args.pi:
-        run_camera(model_path=args.model, use_pi=True, proxy_wolf=args.proxy_wolf, silent=args.silent)
+        run_camera(model_path=args.model, use_pi=True, proxy_wolf=args.proxy_wolf,
+                   silent=args.silent, log_file=args.log_file)
     elif args.source is not None:
-        run_camera(source=args.source, model_path=args.model, use_pi=False, proxy_wolf=args.proxy_wolf, silent=args.silent)
+        run_camera(source=args.source, model_path=args.model, use_pi=False,
+                   proxy_wolf=args.proxy_wolf, silent=args.silent, log_file=args.log_file)
     else:
-        run_demo(silent=args.silent)
+        run_demo(silent=args.silent, log_file=args.log_file)
 
 
 if __name__ == "__main__":
     main()
+
