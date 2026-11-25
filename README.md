@@ -54,3 +54,21 @@ python main.py --source 0 --model yolov8n.pt --proxy-wolf
 # On Raspberry Pi 4B + Camera Module 3 + HC-SR501 PIR:
 python3 main.py --pi --model best_ncnn_model
 ```
+### 5. Save the event log to an SSD
+
+Mount the SSD and replace `/mnt/wolfdet` below with its actual mount path.
+From the project directory, test logging without a camera or speaker:
+
+```bash
+python3 main.py --demo --silent --log-file /mnt/wolfdet/demo-events.csv
+```
+
+Use the same option for camera mode:
+
+```bash
+python3 main.py --pi --model best_ncnn_model --log-file /mnt/wolfdet/events.csv
+```
+
+The parent directory must already exist. Check that the SSD is mounted before
+launching so the log goes to the drive. Without `--log-file`, events are appended
+to `events.csv` in the current directory.
