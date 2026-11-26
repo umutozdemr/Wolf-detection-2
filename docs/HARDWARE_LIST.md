@@ -1,28 +1,28 @@
-# Hardware List & Simple Wiring
+# Hardware List and Wiring
 
-## What We Already Have
-- **Raspberry Pi 4 Model B (4 GB)** + microSD card
-- **Raspberry Pi Camera Module 3** (12 MP, Autofocus, HDR)
+## Already available
+- Raspberry Pi 4 Model B (4 GB) + microSD card
+- Raspberry Pi Camera Module 3 (12 MP, autofocus, HDR)
 
-## Parts Needed
+## Parts to get
 
-| Part | Model | Why | Est. Price |
+| Part | Model | Purpose | Approx. price |
 | :--- | :--- | :--- | :---: |
-| **Motion Sensor (PIR)** | HC-SR501 (or AM312) | Wakes AI only when something moves (~50 µA standby) | ~5 € |
-| **Audio Amplifier** | MAX98357A (I2S, 3W) | Drives speaker + GPIO shutdown pin (`0 mA` standby) | ~6 € |
-| **Waterproof Speaker** | 4Ω 3W–5W IP65 Speaker | Reaches ~65–70 dB at 10 m | ~12 € |
-| **Passive Heatsink** | Pi 4 Aluminum Heatsink | Silent cooling with 0 W power draw (no fan) | ~5 € |
-| **Lab Power Supply** | Official Pi 4 USB-C 5V 3A | Stable power during testing | ~10 € |
-| **Battery** | 20,000 mAh Powerbank *or* 12V 12Ah LiFePO4 + 5V Buck | Outdoor battery power | 30–50 € |
-| **Outdoor Case** | IP65 Plastic Box + Acrylic Window + Silica Gel + Tree Strap | Hang safely on a tree in rain/cold | ~20 € |
-| **Optional (Recommended)** | USB-C Wattmeter + DS3231 RTC | Measure real Watts + keep accurate offline clock | ~15 € |
+| PIR motion sensor | HC-SR501 or AM312 | Wakes detection only on motion (~50 uA standby) | ~5 EUR |
+| Audio amplifier | MAX98357A (I2S, 3W) | Drives speaker and supports GPIO shutdown (0 mA standby) | ~6 EUR |
+| Outdoor speaker | 4 Ohm 3-5W IP65 speaker | Loud enough for ~65-70 dB at 10 m | ~12 EUR |
+| Heatsink | Pi 4 aluminum heatsink | Passive cooling without a fan | ~5 EUR |
+| Power adapter | Official Pi 4 USB-C 5V 3A | Stable power for lab testing | ~10 EUR |
+| Battery | 20,000 mAh powerbank or 12V 12Ah LiFePO4 + 5V buck | Outdoor power supply | 30-50 EUR |
+| Enclosure | IP65 box + clear acrylic window + silica gel + strap | Weather protection and tree mounting | ~20 EUR |
+| Optional | USB-C wattmeter + DS3231 RTC | Real power measurements and offline clock | ~15 EUR |
 
-## Simple GPIO Wiring (Raspberry Pi 4B)
+## Raspberry Pi 4B GPIO wiring
 
-| Module | Module Pin | Raspberry Pi 4 Pin |
+| Part | Pin on module | Pin on Pi 4B |
 | :--- | :--- | :--- |
-| **Camera Module 3** | 15-pin CSI Ribbon | CSI Camera Port |
-| **HC-SR501 PIR** | `VCC` / `GND` / `OUT` | Pin 2 (`5V`) / Pin 6 (`GND`) / Pin 11 (`GPIO 17`) |
-| **MAX98357A Amp** | `VIN` / `GND` | Pin 4 (`5V`) / Pin 9 (`GND`) |
-| **MAX98357A Amp** | `BCLK` / `LRC` / `DIN` | Pin 12 (`GPIO 18`) / Pin 35 (`GPIO 19`) / Pin 40 (`GPIO 21`) |
-| **MAX98357A Amp** | `SD` (Shutdown) | Pin 13 (`GPIO 27`) — `LOW` = off, `HIGH` = on |
+| Camera Module 3 | 15-pin ribbon cable | CSI port |
+| HC-SR501 PIR | VCC / GND / OUT | Pin 2 (5V) / Pin 6 (GND) / Pin 11 (GPIO 17) |
+| MAX98357A Amp | VIN / GND | Pin 4 (5V) / Pin 9 (GND) |
+| MAX98357A Amp | BCLK / LRC / DIN | Pin 12 (GPIO 18) / Pin 35 (GPIO 19) / Pin 40 (GPIO 21) |
+| MAX98357A Amp | SD (shutdown) | Pin 13 (GPIO 27), LOW = off, HIGH = on |

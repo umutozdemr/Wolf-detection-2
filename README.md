@@ -1,74 +1,73 @@
-# WolfDet — Simple Energy-Efficient Wolf Detection & Response System
+# Wolf Detection System
 
-**Ubiquitous Computing Project (Universität Siegen)**  
-**Hardware:** Raspberry Pi 4B (4 GB) + Raspberry Pi Camera Module 3
+Ubiquitous Computing project at University of Siegen.
 
-Detects wolves using edge AI and plays randomized **calm human speech** to deter them — grounded in **Suraci et al. (2017)** (ABR camera-speaker system) and **Zanette et al. (2023)** (wildlife fears human speech more than dogs, gunshots, or apex predators).
+The goal is to build an energy-efficient system on a Raspberry Pi 4B (4 GB) with a Raspberry Pi Camera Module 3 that detects wolves and plays human talking sounds to scare them away. The idea is based on Suraci et al. (2017) and Zanette et al. (2023), which show that wildlife reacts much more strongly to normal human speech than to dog barking or gunshots.
 
-## How It Works
-1. **IDLE:** Waits in low-power mode for motion (PIR sensor on Pi, or frame difference on PC).
-2. **DETECTING:** Runs lightweight YOLO at **4 FPS** for up to 15 seconds.
-   - Ignores non-target animals (deer, fox, dog).
-   - Ignores humans (`person`) for privacy (GDPR).
-   - Confirms a wolf only after **3 consecutive frames** (prevents false alarms).
-3. **RESPOND & COOLDOWN:** Plays a random calm human voice clip from `sounds/`, logs the event to `events.csv`, and enters a 30-second cooldown.
+## How it works
 
-## Project Files
-```text
-Wolf-detection-2/
-├── main.py                       # Complete detection, audio & logging script
-├── power_calc.py                 # Simple battery life & energy savings calculator
-├── train.py                      # YOLOv8n training + NCNN export for Pi 4B
-├── test_main.py                  # Simple unit tests
-├── requirements.txt              # Python dependencies (opencv-python, ultralytics)
-├── sounds/README.md              # Drop calm human speech .wav files here
-└── docs/
-    ├── MIDTERM_PRESENTATION.md   # 10-slide Midterm outline aligned with rubric
-    └── HARDWARE_LIST.md          # Hardware BOM & Raspberry Pi GPIO wiring
+1. The system stays idle until motion is detected (PIR sensor on the Pi, or frame differencing on a PC).
+2. Once triggered, it runs YOLO at 4 FPS for up to 15 seconds to save CPU and battery.
+3. Non-target animals like deer, foxes, or dogs are ignored. If a person is detected, nothing is triggered or saved for privacy.
+4. If a wolf is detected in 3 frames in a row, the script picks a random `.wav` clip from `sounds/`, plays it, logs the event to a CSV file, and waits 30 seconds before triggering again.
+
+## Files
+
+- `main.py` - main script for motion check, YOLO detection, audio playback, and CSV logging
+- `power_calc.py` - rough battery life estimates for different power setups
+- `train.py` - script to train YOLOv8n on a custom wolf dataset and export to NCNN for the Pi
+- `test_main.py` - basic unit tests for the detection/audio logic
+- `sounds/` - `.wav` clips of people talking (currently includes two sample clips)
+- `docs/HARDWARE_LIST.md` - parts list and GPIO wiring notes
+- `docs/MIDTERM_PRESENTATION.md` - notes and slide plan for the midterm presentation
+
+## Setup and usage
+
+Install dependencies if you want to run with a real camera or video:
+
+```bash
+pip install -r requirements.txt
 ```
 
-## Quickstart
+### Demo mode (no camera or packages needed)
 
-### 1. Run Midterm Demo (No extra packages needed)
 ```bash
 python main.py --demo
 ```
 
-### 2. Run Power & Battery Comparison
-```bash
-python power_calc.py
-```
+### Webcam or video file on PC
 
-### 3. Run Unit Tests
-```bash
-python -m unittest test_main.py -v
-```
+If you only have stock COCO weights (`yolov8n.pt`), you can pass `--proxy-wolf` to treat `dog` detections as `wolf` while testing:
 
-### 4. Run with Webcam / Video (PC) or Raspberry Pi 4B
 ```bash
-pip install -r requirements.txt
-
-# On PC with webcam or wildlife video:
 python main.py --source 0 --model yolov8n.pt --proxy-wolf
+```
 
-# On Raspberry Pi 4B + Camera Module 3 + HC-SR501 PIR:
+### Raspberry Pi 4B with Camera Module 3 and PIR sensor
+
+```bash
 python3 main.py --pi --model best_ncnn_model
 ```
-### 5. Save the event log to an SSD
 
-Mount the SSD and replace `/mnt/wolfdet` below with its actual mount path.
-From the project directory, test logging without a camera or speaker:
+### Logging events to an external SSD
+
+Mount the SSD first and replace `/mnt/wolfdet` with your mount path. You can test logging without a camera or speaker like this:
 
 ```bash
 python3 main.py --demo --silent --log-file /mnt/wolfdet/demo-events.csv
 ```
 
-Use the same option for camera mode:
+And with the Pi camera:
 
 ```bash
 python3 main.py --pi --model best_ncnn_model --log-file /mnt/wolfdet/events.csv
 ```
 
-The parent directory must already exist. Check that the SSD is mounted before
-launching so the log goes to the drive. Without `--log-file`, events are appended
-to `events.csv` in the current directory.
+Make sure the target folder already exists and the drive is mounted before starting. Without `--log-file`, events go to `events.csv` in the project directory.
+
+### Power estimate and tests
+
+```bash
+python power_calc.py
+python -m unittest test_main.py -v
+```

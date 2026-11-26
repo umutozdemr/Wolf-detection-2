@@ -1,7 +1,5 @@
-# Human Speech Audio Clips (`sounds/`)
+# Audio Clips
 
-Put **8–14 calm human conversation `.wav` clips** (~10 seconds each, men & women talking normally) in this folder.
+Add `.wav` clips of normal human conversation (around 10 seconds each) to this folder.
 
-- Based on **Zanette et al. (2023)**: wildlife fears calm human voices more than dogs, gunshots, or lions.
-- `main.py` automatically picks a random `.wav` from this folder and avoids playing the same clip twice in a row (prevents habituation).
-- Target outdoor volume: **~60 dB at 10 meters**.
+`main.py` picks a random `.wav` file from here whenever a wolf is confirmed and avoids repeating the same clip twice in a row. Based on Zanette et al. (2023), calm human speech works better than dog barking or gunshots, with outdoor playback around 60 dB at 10 m.

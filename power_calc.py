@@ -1,30 +1,29 @@
-"""
-Simple battery life & energy comparison for Raspberry Pi 4B + Camera Module 3.
-Assumes a typical forest trail: 40 motion triggers + 2 wolf events per day.
-"""
+# Rough battery life comparison for Pi 4B + Camera Module 3
+# Assuming ~40 motion triggers and 2 wolf detections per day
 
-BATTERY_WH = 74.0 * 0.85   # 20,000 mAh powerbank (~62.9 Wh usable)
-LIFEPO4_WH = 153.6 * 0.85  # 12V 12Ah LiFePO4 battery (~130.6 Wh usable)
+POWERBANK_WH = 74.0 * 0.85   # 20,000 mAh powerbank (~85% usable)
+LIFEPO4_WH = 153.6 * 0.85    # 12V 12Ah LiFePO4 battery
 
-MOTION_EVENTS_PER_DAY = 40
-WOLF_EVENTS_PER_DAY = 2
+MOTION_PER_DAY = 40
+WOLVES_PER_DAY = 2
 
-DETECT_SEC = (MOTION_EVENTS_PER_DAY + WOLF_EVENTS_PER_DAY) * 15
-PLAYBACK_SEC = WOLF_EVENTS_PER_DAY * 12
-IDLE_SEC = 86400 - DETECT_SEC - PLAYBACK_SEC
+detect_sec = (MOTION_PER_DAY + WOLVES_PER_DAY) * 15
+play_sec = WOLVES_PER_DAY * 12
+idle_sec = 86400 - detect_sec - play_sec
 
 
-def print_mode(name, idle_w, detect_w, play_w, battery_wh):
-    daily_wh = (IDLE_SEC * idle_w + DETECT_SEC * detect_w + PLAYBACK_SEC * play_w) / 3600
-    avg_w = daily_wh / 24
+def show_estimate(label, idle_w, detect_w, play_w, battery_wh):
+    wh_per_day = (idle_sec * idle_w + detect_sec * detect_w + play_sec * play_w) / 3600
+    avg_w = wh_per_day / 24
     hours = battery_wh / avg_w
     runtime = f"{hours / 24:.1f} days" if hours >= 48 else f"{hours:.1f} hours"
-    print(f"{name:<28} | {avg_w:5.2f} W avg | {daily_wh:6.1f} Wh/day | {runtime}")
+    print(f"{label:<25} | {avg_w:4.2f} W avg | {wh_per_day:5.1f} Wh/day | {runtime}")
 
 
 if __name__ == "__main__":
-    for label, wh in [("20,000 mAh Powerbank", BATTERY_WH), ("12V 12Ah LiFePO4", LIFEPO4_WH)]:
-        print(f"\n=== {label} ({wh:.1f} Wh usable) ===")
-        print_mode("1. Continuous AI (24/7)",   idle_w=5.10, detect_w=5.10, play_w=6.20, battery_wh=wh)
-        print_mode("2. PIR-Gated Pi 4B (MVP)",  idle_w=2.10, detect_w=4.80, play_w=6.20, battery_wh=wh)
-        print_mode("3. MCU Hard-Sleep + PIR",   idle_w=0.02, detect_w=4.80, play_w=6.20, battery_wh=wh)
+    for name, wh in [("20,000 mAh Powerbank", POWERBANK_WH), ("12V 12Ah LiFePO4", LIFEPO4_WH)]:
+        print(f"\n{name} ({wh:.1f} Wh usable)")
+        print("-" * 62)
+        show_estimate("Continuous AI",         5.10, 5.10, 6.20, wh)
+        show_estimate("PIR + Pi 4 idle",       2.10, 4.80, 6.20, wh)
+        show_estimate("PIR + MCU deep sleep",  0.02, 4.80, 6.20, wh)
